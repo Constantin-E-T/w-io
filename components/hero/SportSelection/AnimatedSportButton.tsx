@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useAnimation } from 'framer-motion';
 
@@ -16,10 +16,34 @@ const AnimatedSportButton = ({
   buttonClassName 
 }: AnimatedSportButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
+  const [rollDistance, setRollDistance] = useState(130);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   
   const ballControls = useAnimation();
   const containerControls = useAnimation();
   const textControls = useAnimation();
+  
+  // Calculate proper roll distance based on button width
+  useEffect(() => {
+    const calculateRollDistance = () => {
+      if (buttonRef.current) {
+        // Set roll distance to 60% of the button width
+        // This ensures the ball stays within the container
+        const buttonWidth = buttonRef.current.offsetWidth;
+        setRollDistance(Math.min(130, buttonWidth * .66));
+      }
+    };
+    
+    // Calculate on mount
+    calculateRollDistance();
+    
+    // Recalculate on window resize
+    window.addEventListener('resize', calculateRollDistance);
+    
+    return () => {
+      window.removeEventListener('resize', calculateRollDistance);
+    };
+  }, []);
   
   const handleClick = async () => {
     if (isClicked) return;
@@ -29,16 +53,15 @@ const AnimatedSportButton = ({
     // Fade out text
     await textControls.start({ opacity: 0, transition: { duration: 0.2 } });
     
-    // Start ball rolling animation
+    // Start ball rolling animation with the calculated distance
     ballControls.start({ 
-      x: 130, 
+      x: rollDistance, 
       rotate: 360,
       transition: { 
         duration: 1, 
         ease: "easeInOut",
       }
     });
-    
     
     // Reset everything after animations complete
     setTimeout(() => {
@@ -50,10 +73,11 @@ const AnimatedSportButton = ({
 
   return (
     <motion.button 
+      ref={buttonRef}
       className={`
         ${buttonClassName}
         relative
-        overflow-visible
+        overflow-hidden
       `}
       onClick={handleClick}
     >

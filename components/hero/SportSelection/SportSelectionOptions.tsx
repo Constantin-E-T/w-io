@@ -30,13 +30,13 @@ const SportSelectionOptions = () => {
         gap-4 sm:gap-6
       ">
         {/* Football Button */}
-        <AnimatedSportButton 
+        <AnimatedSportButton
           sport="Football"
           iconSrc="/icons/common/football__icon__white.svg"
           buttonClassName="
             flex items-center 
             gap-[12px] sm:gap-[16px] 
-            w-full sm:w-[186px] 
+            w-full 
             px-[8px] py-[8px] pr-[8px] 
             bg-[#1EBB67] text-white rounded-[60px] 
             border border-[#1CB061] shadow-md transition 
@@ -46,7 +46,7 @@ const SportSelectionOptions = () => {
         />
 
         {/* Basketball Button */}
-        <AnimatedSportButton 
+        <AnimatedSportButton
           sport="Basketball"
           iconSrc="/icons/common/basketball__icon__white.svg"
           buttonClassName="
