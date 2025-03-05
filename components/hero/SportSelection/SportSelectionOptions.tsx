@@ -1,25 +1,4 @@
-import Image from "next/image";
-
-// Type definitions for the SportButton props
-type SportButtonProps = {
-  sport: string;
-  iconSrc: string;
-  buttonClassName: string;
-};
-
-// Reusable SportButton component
-const SportButton = ({ 
-  sport, 
-  iconSrc, 
-  buttonClassName 
-}: SportButtonProps) => {
-  return (
-    <button className={buttonClassName}>
-      <Image src={iconSrc} alt={sport} width={38} height={38} />
-      <span className="font-poppins font-semibold text-[18px] leading-[28px] text-white">{sport}</span>
-    </button>
-  );
-};
+import AnimatedSportButton from '@/components/hero/SportSelection/AnimatedSportButton';
 
 const SportSelectionOptions = () => {
   return (
@@ -51,7 +30,7 @@ const SportSelectionOptions = () => {
         gap-4 sm:gap-6
       ">
         {/* Football Button */}
-        <SportButton 
+        <AnimatedSportButton 
           sport="Football"
           iconSrc="/icons/common/football__icon__white.svg"
           buttonClassName="
@@ -67,7 +46,7 @@ const SportSelectionOptions = () => {
         />
 
         {/* Basketball Button */}
-        <SportButton 
+        <AnimatedSportButton 
           sport="Basketball"
           iconSrc="/icons/common/basketball__icon__white.svg"
           buttonClassName="
