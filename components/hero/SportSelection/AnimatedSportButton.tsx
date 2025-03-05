@@ -23,14 +23,20 @@ const AnimatedSportButton = ({
   const containerControls = useAnimation();
   const textControls = useAnimation();
   
-  // Calculate proper roll distance based on button width
+  // Calculate proper roll distance based on screen size
   useEffect(() => {
     const calculateRollDistance = () => {
-      if (buttonRef.current) {
-        // Set roll distance to 60% of the button width
-        // This ensures the ball stays within the container
+      // Check if we're on a small screen (using the sm breakpoint which is typically 640px)
+      const isSmallScreen = window.innerWidth < 640;
+      
+      if (isSmallScreen && buttonRef.current) {
+        // Only adjust for small screens
         const buttonWidth = buttonRef.current.offsetWidth;
-        setRollDistance(Math.min(130, buttonWidth * .66));
+        // Use 66% of button width as roll distance for small screens
+        setRollDistance(Math.min(130, buttonWidth * 0.66));
+      } else {
+        // Keep original roll distance for larger screens
+        setRollDistance(130);
       }
     };
     

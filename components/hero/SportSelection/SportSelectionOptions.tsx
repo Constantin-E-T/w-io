@@ -36,7 +36,7 @@ const SportSelectionOptions = () => {
           buttonClassName="
             flex items-center 
             gap-[12px] sm:gap-[16px] 
-            w-full 
+            w-full sm:w-[186px] 
             px-[8px] py-[8px] pr-[8px] 
             bg-[#1EBB67] text-white rounded-[60px] 
             border border-[#1CB061] shadow-md transition 
