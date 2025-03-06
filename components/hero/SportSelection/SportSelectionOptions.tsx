@@ -20,47 +20,48 @@ const SportSelectionOptions = () => {
         font-semibold 
         text-center
       ">
-        Choose Your Sport:
+        Choose Your Sport
       </p>
 
-      {/* Buttons */}
-      <div className="
-        mt-[16px] sm:mt-[20px] md:mt-[24px] 
-        flex flex-col sm:flex-row 
-        gap-4 sm:gap-6
-      ">
-        {/* Football Button */}
-        <AnimatedSportButton
-          sport="Football"
-          iconSrc="/icons/common/football__icon__white.svg"
-          buttonClassName="
-            flex items-center 
-            gap-[12px] sm:gap-[16px] 
-            w-full sm:w-[186px] 
-            px-[8px] py-[8px] pr-[8px] 
-            bg-[#1EBB67] text-white rounded-[60px] 
-            border border-[#1CB061] shadow-md transition 
-            hover:bg-[#4FE394] 
-            focus:bg-[#1EBB67] focus:border-[#D9FDE0] focus:ring-6 focus:ring-[#D9FDE0] outline-none
-          "
-        />
+     {/* Buttons */}
+     <div className="
+      mt-4 sm:mt-5 md:mt-6
+      flex flex-col sm:flex-row 
+      gap-4 sm:gap-6
+      items-center sm:items-start
+    ">
+      {/* Football Button - with extra right padding */}
+      <AnimatedSportButton
+        sport="Football"
+        iconSrc="/icons/common/football__icon__white.svg"
+        buttonClassName="
+          flex items-center 
+          gap-3 sm:gap-4
+          w-auto
+          pl-2 pr-6 py-2
+          bg-green-500 text-white rounded-full
+          border border-green-600 shadow-md transition 
+          hover:bg-green-400
+          outline-none
+        "
+      />
 
-        {/* Basketball Button */}
-        <AnimatedSportButton
-          sport="Basketball"
-          iconSrc="/icons/common/basketball__icon__white.svg"
-          buttonClassName="
-            flex items-center 
-            gap-[12px] sm:gap-[16px] 
-            w-full sm:w-[186px] 
-            px-[8px] py-[8px] pr-[8px] 
-            bg-[#F4501E] text-white rounded-[60px] 
-            border border-[#C33509] shadow-md transition 
-            hover:bg-[#F88D6D] 
-            focus:bg-[#F4501E] focus:border-[#FDD9CE] focus:ring-6 focus:ring-[#FDD9CE] outline-none
-          "
-        />
-      </div>
+      {/* Basketball Button - with extra right padding */}
+      <AnimatedSportButton
+        sport="Basketball"
+        iconSrc="/icons/common/basketball__icon__white.svg"
+        buttonClassName="
+          flex items-center 
+          gap-3 sm:gap-4
+          w-auto
+          pl-2 pr-6 py-2
+          bg-orange-600 text-white rounded-full
+          border border-orange-700 shadow-md transition 
+          hover:bg-orange-400
+          outline-none
+        "
+      />
+    </div>
     </div>
   );
 };

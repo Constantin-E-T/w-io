@@ -12,14 +12,17 @@ const SportSelectionText = () => {
         </p>
   
         {/* Second Row: "Your Pickup Game Starts Here" */}
-        <h1 className="
+        <div className="flex justify-center w-full">
+  <h1 className="
           text-[#141548] font-poppins font-extrabold 
-          text-[30px] leading-[36px] tracking-[-0.225px] w-[331px]
-          sm:text-[48px] sm:leading-[58px] sm:tracking-[-0.024px] sm:w-auto
-          text-center self-stretch mt-[24px]
+          text-[30px] leading-[36px] tracking-[-0.225px] w-[361px]
+          sm:text-[48px] sm:leading-[58px] sm:tracking-[-0.024px] sm:w-[550px]
+          text-center mt-[24px]
         ">
-          Your Pickup Game Starts Here
+          Your Pickup Game 
+          Starts Here
         </h1>
+</div>
   
         {/* Third Row: "Everyone gets a Wallet, a Map, Chat and a PlayerProfile." */}
         <p className="

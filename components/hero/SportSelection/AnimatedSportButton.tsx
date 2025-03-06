@@ -16,31 +16,31 @@ const AnimatedSportButton = ({
   buttonClassName 
 }: AnimatedSportButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
-  const [rollDistance, setRollDistance] = useState(130);
+  const [rollDistance, setRollDistance] = useState(0);
   const buttonRef = useRef<HTMLButtonElement>(null);
   
   const ballControls = useAnimation();
   const containerControls = useAnimation();
   const textControls = useAnimation();
   
-  // Calculate proper roll distance based on screen size
+  // Calculate proper roll distance based on button width
   useEffect(() => {
     const calculateRollDistance = () => {
-      // Check if we're on a small screen (using the sm breakpoint which is typically 640px)
-      const isSmallScreen = window.innerWidth < 640;
-      
-      if (isSmallScreen && buttonRef.current) {
-        // Only adjust for small screens
+      if (buttonRef.current) {
         const buttonWidth = buttonRef.current.offsetWidth;
-        // Use 66% of button width as roll distance for small screens
-        setRollDistance(Math.min(130, buttonWidth * 0.66));
-      } else {
-        // Keep original roll distance for larger screens
-        setRollDistance(130);
+        const iconWidth = 38; // Width of the icon
+        const padding = 16; // Add some safe padding
+        
+        // Calculate maximum safe distance to roll without overflowing
+        // Subtract icon width and padding to ensure the ball stays within the container
+        const maxSafeDistance = buttonWidth - iconWidth - padding;
+        
+        // Use the smaller of our target distance or the max safe distance
+        setRollDistance(Math.min(maxSafeDistance, 130));
       }
     };
     
-    // Calculate on mount
+    // Calculate on mount and whenever clicked (to handle any layout changes)
     calculateRollDistance();
     
     // Recalculate on window resize
@@ -49,7 +49,7 @@ const AnimatedSportButton = ({
     return () => {
       window.removeEventListener('resize', calculateRollDistance);
     };
-  }, []);
+  }, [isClicked]);
   
   const handleClick = async () => {
     if (isClicked) return;
@@ -64,7 +64,7 @@ const AnimatedSportButton = ({
       x: rollDistance, 
       rotate: 360,
       transition: { 
-        duration: 1, 
+        duration: .5, 
         ease: "easeInOut",
       }
     });
@@ -89,12 +89,12 @@ const AnimatedSportButton = ({
     >
       {/* Container background that will shrink */}
       <motion.div 
-        className="absolute top-0 left-0 h-full bg-opacity-20 rounded-md"
+        className="absolute top-0 left-0 h-full bg-opacity-20 rounded-full"
         initial={{ width: "100%" }}
         animate={containerControls}
       ></motion.div>
       
-      <div className="flex items-center gap-[12px] sm:gap-[16px] relative z-10">
+      <div className="flex items-center gap-3 sm:gap-4 relative z-10">
         <div className="relative">
           <motion.div
             initial={{ x: 0, rotate: 0 }}
@@ -111,7 +111,7 @@ const AnimatedSportButton = ({
         </div>
         
         <motion.span
-          className="font-poppins font-semibold text-[18px] leading-[28px] text-white"
+          className="font-poppins font-semibold text-lg leading-7 text-white"
           initial={{ opacity: 1 }}
           animate={textControls}
         >

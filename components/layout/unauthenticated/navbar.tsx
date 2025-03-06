@@ -30,12 +30,12 @@ export function UnAuthenticatedNavbar() {
         rightItems={
           <>
             {/* Desktop Menu - Hidden on screens smaller than 468px */}
-            <div className="flex items-center space-x-4 max-[468px]:hidden">
+            <div className="flex items-center space-x-4 max-[501px]:hidden">
               <Button
                 asChild
                 variant="outline"
                 size="icon"
-                className="border-[#EAECF0] text-[#141548] hover:bg-[#EAECF0] focus:ring-1 focus:bg-[#EAECF0] focus:ring-[#141548] focus:outline-none"
+                className="border-[#EAECF0] text-[#141548] hover:bg-[#EAECF0] w-[48px] h-[40px] px-2"
                 style={{ borderRadius: '6px', borderWidth: '1px' }}
               >
                 <Link href="/messages">
@@ -51,7 +51,7 @@ export function UnAuthenticatedNavbar() {
               <Button
                 asChild
                 variant="outline"
-                className="border-[#EAECF0] text-[#141548] hover:bg-[#EAECF0] focus:ring-1 focus:bg-[#EAECF0] focus:ring-[#141548] focus:outline-none"
+                className="border-[#EAECF0] text-[#141548] hover:bg-[#EAECF0] w-[83px] h-[40px] px-2"
                 style={{ borderRadius: '6px', borderWidth: '1px' }}
               >
                 <Link href="/sign-in">Sign In</Link>
@@ -59,7 +59,7 @@ export function UnAuthenticatedNavbar() {
 
               <Button
                 asChild
-                className="bg-[#141548] text-white hover:bg-[#212278] hover:text-white focus:bg-[#212278] focus:text-white focus:ring-[5px] focus:ring-[#EBEBFA] focus:outline-none"
+                className="bg-[#141548] text-white hover:bg-[#212278] hover:text-white w-[104px] h-[40px] px-2"
                 style={{ borderRadius: '6px' }}
               >
                 <Link href="/sign-up">Sign Up</Link>
@@ -67,9 +67,9 @@ export function UnAuthenticatedNavbar() {
             </div>
 
             {/* Mobile Hamburger Menu - Only visible on screens smaller than 468px */}
-            <div className="hidden max-[468px]:block relative">
+            <div className="hidden max-[501px]:block relative">
               <button 
-                className={`w-12 h-12 flex items-center justify-center rounded-full bg-white border ${isMenuOpen ? 'border-[#141548]' : 'border-[#EAECF0]'} hover:border-[#A5B0C0] focus:border-[#141548] focus:ring-[6px] focus:ring-[#E1E5EA] focus:outline-none cursor-pointer`}
+                className={`w-12 h-12 flex items-center justify-center rounded-full bg-white border ${isMenuOpen ? 'border-[#141548]' : 'border-[#EAECF0]'} hover:border-[#A5B0C0] cursor-pointer`}
                 onClick={toggleMenu}
                 tabIndex={0}
               >
