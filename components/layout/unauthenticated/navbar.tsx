@@ -45,6 +45,7 @@ export function UnAuthenticatedNavbar() {
                       alt="Messages"
                       fill
                       style={{ objectFit: 'contain' }}
+                      priority
                     />
                   </div>
                 </Link>
