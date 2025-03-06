@@ -8,12 +8,14 @@ type AnimatedSportButtonProps = {
   sport: string;
   iconSrc: string;
   buttonClassName: string;
+  onClick?: () => void;
 };
 
 const AnimatedSportButton = ({ 
   sport, 
   iconSrc, 
-  buttonClassName 
+  buttonClassName,
+  onClick
 }: AnimatedSportButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
   const [rollDistance, setRollDistance] = useState(0);
@@ -69,12 +71,18 @@ const AnimatedSportButton = ({
       }
     });
     
-    // Reset everything after animations complete
+    // Wait for animation to complete, then call the onClick prop
     setTimeout(() => {
+      // This is the critical part - call the onClick prop to trigger the sport selection
+      if (onClick) {
+        onClick();
+      }
+      
+      // Reset animation states
       setIsClicked(false);
       ballControls.start({ x: 0, rotate: 0, transition: { duration: 0 } });
       textControls.start({ opacity: 1, transition: { duration: 0.3 } });
-    }, 2000);
+    }, 1000); // Reduced from 2000ms to 1000ms for better UX
   };
 
   return (
@@ -106,6 +114,7 @@ const AnimatedSportButton = ({
               alt={sport} 
               width={38} 
               height={38}
+              style={{ width: 'auto', height: 'auto' }}
             />
           </motion.div>
         </div>

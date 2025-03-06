@@ -3,7 +3,11 @@ import SportSelectionContainer from "./SportSelectionContainer";
 import SportSelectionOptions from "./SportSelectionOptions";
 import SportSelectionText from "./SportSelectionText";
 
-const SportSelection = () => {
+interface SportSelectionProps {
+    onSportSelected?: () => void;
+  }
+
+const SportSelection = ({ onSportSelected }: SportSelectionProps) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center">
             <SportSelectionBackground />
@@ -11,7 +15,7 @@ const SportSelection = () => {
             <SportSelectionContainer className={`mt-[-30px] sm:mt-0`}>
             <SportSelectionText />
                 {/* New Component for the Sports Selection */}
-                <SportSelectionOptions />
+                <SportSelectionOptions onSportSelected={onSportSelected} />
             </SportSelectionContainer>
 
         </div>

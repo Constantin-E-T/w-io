@@ -1,6 +1,22 @@
 import AnimatedSportButton from '@/components/hero/SportSelection/AnimatedSportButton';
+import { useSportTheme, SportType } from "@/lib/contexts/SportContext";
 
-const SportSelectionOptions = () => {
+interface SportSelectionOptionsProps {
+  onSportSelected?: () => void;
+}
+
+
+const SportSelectionOptions = ({ onSportSelected }: SportSelectionOptionsProps) => {
+
+  const { changeSport } = useSportTheme();
+
+  const handleSportSelection = (sport: SportType) => {
+    changeSport(sport);
+    if (onSportSelected) {
+      onSportSelected();
+    }
+  };
+
   return (
     <div className="
       w-[320px] 
@@ -44,6 +60,7 @@ const SportSelectionOptions = () => {
           hover:bg-green-400
           outline-none
         "
+        onClick={() => handleSportSelection("FOOTBALL")}
       />
 
       {/* Basketball Button - with extra right padding */}
@@ -60,6 +77,7 @@ const SportSelectionOptions = () => {
           hover:bg-orange-400
           outline-none
         "
+        onClick={() => handleSportSelection("BASKETBALL")}
       />
     </div>
     </div>

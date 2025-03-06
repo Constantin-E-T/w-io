@@ -36,26 +36,32 @@ export function NavbarContent({
                 <div className="flex items-center justify-between h-full w-full absolute inset-0">
                     {/* Logo section flush with left edge */}
                     {logo && (
-                        <div className="h-full flex items-center">
-                            {logo.href ? (
-                                <Link href={logo.href} className="h-full flex items-center">
-                                    <Image 
-                                        src={logo.src} 
-                                        alt={logo.alt} 
-                                        width={logo.width || 40} 
-                                        height={logo.height || 40} 
-                                    />
-                                </Link>
-                            ) : (
-                                <Image 
-                                    src={logo.src} 
-                                    alt={logo.alt} 
-                                    width={logo.width || 40} 
-                                    height={logo.height || 40} 
-                                />
-                            )}
-                        </div>
-                    )}
+  <div className="flex items-center">
+    {logo.href ? (
+      <Link href={logo.href} className="block">
+        <div style={{ width: logo.width || 40, height: logo.height || 40, position: 'relative' }}>
+          <Image 
+            src={logo.src} 
+            alt={logo.alt} 
+            fill
+            style={{ objectFit: 'contain' }}
+            priority
+          />
+        </div>
+      </Link>
+    ) : (
+      <div style={{ width: logo.width || 40, height: logo.height || 40, position: 'relative' }}>
+        <Image 
+          src={logo.src} 
+          alt={logo.alt} 
+          fill
+          style={{ objectFit: 'contain' }}
+          priority
+        />
+      </div>
+    )}
+  </div>
+)}
                     
                     {/* Links section */}
                     {links && links.length > 0 && (

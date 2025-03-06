@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/unauthenticated/footer"
 import { UnAuthenticatedNavbar } from "@/components/layout/unauthenticated/navbar"
 
 export default function UnAuthenticatedLayout({
@@ -11,6 +12,7 @@ export default function UnAuthenticatedLayout({
       <main className="flex-1">
         {children}
       </main>
+      <Footer />
     </div>
   )
 }

@@ -22,7 +22,7 @@ export function UnAuthenticatedNavbar() {
       <NavbarContent
         logo={{
           src: "/logo/WOOOBA__Logo__Dark.svg",
-          alt: "Your Brand",
+          alt: "WOOOBA Logo",
           href: "/",
           width: 194,
           height: 45
@@ -39,12 +39,14 @@ export function UnAuthenticatedNavbar() {
                 style={{ borderRadius: '6px', borderWidth: '1px' }}
               >
                 <Link href="/messages">
-                  <Image
-                    src="/icons/navigation/message.svg"
-                    alt="Messages"
-                    width={24}
-                    height={24}
-                  />
+                  <div style={{ width: 24, height: 24, position: 'relative' }}>
+                    <Image
+                      src="/icons/navigation/message.svg"
+                      alt="Messages"
+                      fill
+                      style={{ objectFit: 'contain' }}
+                    />
+                  </div>
                 </Link>
               </Button>
 
@@ -68,7 +70,7 @@ export function UnAuthenticatedNavbar() {
 
             {/* Mobile Hamburger Menu - Only visible on screens smaller than 468px */}
             <div className="hidden max-[501px]:block relative">
-              <button 
+              <button
                 className={`w-12 h-12 flex items-center justify-center rounded-full bg-white border ${isMenuOpen ? 'border-[#141548]' : 'border-[#EAECF0]'} hover:border-[#A5B0C0] cursor-pointer`}
                 onClick={toggleMenu}
                 tabIndex={0}
