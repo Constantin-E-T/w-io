@@ -7,11 +7,11 @@ export default function UnAuthenticatedLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col overflow-hidden">
       <UnAuthenticatedNavbar />
-      <main className="flex-1">
+      <div className="flex-1 relative overflow-hidden">
         {children}
-      </main>
+      </div>
       <Footer />
     </div>
   )

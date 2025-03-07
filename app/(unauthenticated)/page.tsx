@@ -28,22 +28,22 @@ export default function UnAuthenticatedHome() {
   };
 
   return (
-    <main>
+    <div className="h-full w-full relative overflow-hidden">
       {/* Initial loading state */}
       <div className={`absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 transition-opacity duration-500 ${isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <div className="h-screen flex items-center justify-center">
+        <div className="h-full w-full flex items-center justify-center">
           {/* Optional: Add a subtle pulse animation or logo here */}
         </div>
       </div>
       
       {/* Content containers (both rendered but only one visible) */}
-      <div className={`${showSportSelection ? 'block' : 'hidden'}`}>
+      <div className={`absolute inset-0 ${showSportSelection ? 'block' : 'hidden'}`}>
         <SportSelection onSportSelected={handleSportSelected} />
       </div>
       
-      <div className={`${!showSportSelection ? 'block' : 'hidden'}`}>
+      <div className={`absolute inset-0 ${!showSportSelection ? 'block' : 'hidden'}`}>
         <UnAuthenticatedHero />
       </div>
-    </main>
+    </div>
   );
 }
