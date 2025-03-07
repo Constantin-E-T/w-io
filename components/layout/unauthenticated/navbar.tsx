@@ -9,13 +9,71 @@ import Link from 'next/link';
 
 import MobileMenu from './mobile-menu';
 import HamburgerIcon from '@/components/ui/hamburger-menu-icon';
+import SportThemePicker from './sport-theme-picker';
+import { useSportTheme } from '@/lib/contexts/SportContext';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function UnAuthenticatedNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isSportPickerOpen, setIsSportPickerOpen] = useState<boolean>(false);
+  const { activeSport, isLoading } = useSportTheme();
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
+    if (isSportPickerOpen) setIsSportPickerOpen(false);
   };
+
+  const toggleSportPicker = (): void => {
+    setIsSportPickerOpen(!isSportPickerOpen);
+    if (isMenuOpen) setIsMenuOpen(false);
+  };
+
+  // Sport theme config
+  const sportThemes = {
+    BASKETBALL: {
+      icon: '/icons/sportToggle/basketballToggleIcon__white.svg',
+      color: 'bg-[#F4501E]',
+      hoverColor: 'hover:bg-[#F88D6D]',
+      focusStyle: 'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#FAB39E]',
+      hoverBorder: 'hover:border-[#C33509]',
+      activeBorder: 'border-[#C33509]'
+    },
+    FOOTBALL: {
+      icon: '/icons/sportToggle/footballToggleIcon__white.svg',
+      color: 'bg-[#00A550]',
+      hoverColor: 'hover:bg-[#7BEAAF]',
+      focusStyle: 'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#7BEAAF]',
+      hoverBorder: 'hover:border-[#158449]',
+      activeBorder: 'border-[#158449]'
+    }
+  };
+
+  const currentTheme = sportThemes[activeSport as keyof typeof sportThemes];
+
+  // Show skeleton while loading
+  if (isLoading) {
+    return (
+      <NavbarContainer backgroundColor="bg-white" height="100px">
+        <NavbarContent
+          logo={{
+            src: "/logo/WOOOBA__Logo__Dark.svg",
+            alt: "WOOOBA Logo",
+            href: "/",
+            width: 194,
+            height: 45
+          }}
+          rightItems={
+            <div className="flex items-center space-x-4">
+              <Skeleton className="h-10 w-10 rounded-full" />
+              <Skeleton className="h-10 w-12" />
+              <Skeleton className="h-10 w-20" />
+              <Skeleton className="h-10 w-24" />
+            </div>
+          }
+        />
+      </NavbarContainer>
+    );
+  }
 
   return (
     <NavbarContainer backgroundColor="bg-white" height="100px">
@@ -29,8 +87,31 @@ export function UnAuthenticatedNavbar() {
         }}
         rightItems={
           <>
-            {/* Desktop Menu - Hidden on screens smaller than 468px */}
+            {/* Desktop Menu - Hidden on screens smaller than 501px */}
             <div className="flex items-center space-x-4 max-[501px]:hidden">
+              {/* Sport Theme Picker Button with Dropdown */}
+              <div className="relative">
+                <button
+                  className={`w-10 h-10 flex items-center justify-center rounded-full ${currentTheme.color} ${currentTheme.hoverColor} ${currentTheme.focusStyle} border ${isSportPickerOpen ? currentTheme.activeBorder : 'border-transparent'} ${currentTheme.hoverBorder} cursor-pointer`}
+                  onClick={toggleSportPicker}
+                  tabIndex={0}
+                >
+                  <div className="flex items-center justify-center w-5 h-5 relative">
+                    <Image
+                      src={currentTheme.icon}
+                      alt={`${activeSport} theme`}
+                      fill
+                      style={{ objectFit: 'contain' }}
+                      priority
+                    />
+                  </div>
+                </button>
+                <SportThemePicker 
+                  isOpen={isSportPickerOpen}
+                  onClose={() => setIsSportPickerOpen(false)}
+                />
+              </div>
+
               <Button
                 asChild
                 variant="outline"
@@ -50,7 +131,7 @@ export function UnAuthenticatedNavbar() {
                   </div>
                 </Link>
               </Button>
-
+              
               <Button
                 asChild
                 variant="outline"
@@ -69,10 +150,32 @@ export function UnAuthenticatedNavbar() {
               </Button>
             </div>
 
-            {/* Mobile Hamburger Menu - Only visible on screens smaller than 468px */}
-            <div className="hidden max-[501px]:block relative">
+            {/* Mobile View - Only visible on screens smaller than 501px */}
+            <div className="hidden max-[501px]:flex items-center space-x-3 relative">
+              {/* Sport Theme Picker for Mobile */}
               <button
-                className={`w-12 h-12 flex items-center justify-center rounded-full bg-white border ${isMenuOpen ? 'border-[#141548]' : 'border-[#EAECF0]'} hover:border-[#A5B0C0] cursor-pointer`}
+                className={`w-12 h-12 flex items-center justify-center rounded-full ${currentTheme.color} ${currentTheme.hoverColor} ${currentTheme.focusStyle} border ${isSportPickerOpen ? currentTheme.activeBorder : 'border-transparent'} ${currentTheme.hoverBorder} cursor-pointer`}
+                onClick={toggleSportPicker}
+                tabIndex={0}
+              >
+                <div className="flex items-center justify-center w-6 h-6 relative">
+                  <Image
+                    src={currentTheme.icon}
+                    alt={`${activeSport} theme`}
+                    fill
+                    style={{ objectFit: 'contain' }}
+                    priority
+                  />
+                </div>
+              </button>
+              <SportThemePicker 
+                isOpen={isSportPickerOpen}
+                onClose={() => setIsSportPickerOpen(false)}
+              />
+              
+              {/* Mobile Hamburger Menu */}
+              <button
+                className={`w-12 h-12 flex items-center justify-center rounded-full bg-white border ${isMenuOpen ? 'border-[#141548]' : 'border-[#EAECF0]'} hover:border-[#A5B0C0] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#A5B0C0] cursor-pointer`}
                 onClick={toggleMenu}
                 tabIndex={0}
               >
