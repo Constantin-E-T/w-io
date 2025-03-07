@@ -4,20 +4,22 @@ import { useEffect, useState } from 'react';
 import { useSportTheme } from '@/lib/contexts/SportContext';
 
 export function SportBackground() {
-  const { isFootball } = useSportTheme();
-  const [backgroundImage, setBackgroundImage] = useState('');
+  const { isFootball, isLoading } = useSportTheme();
+  const [backgrounds, setBackgrounds] = useState({
+    current: { url: '', active: true },
+    previous: { url: '', active: false }
+  });
+  const [isPreloaded, setIsPreloaded] = useState(false);
 
   useEffect(() => {
     // Function to get the appropriate background image based on screen size and sport
-    const updateBackgroundImage = () => {
+    const getBackgroundImage = () => {
       // Get current window width
       const width = window.innerWidth;
       
       // Determine size category based on the same breakpoints as NavbarContainer
       let sizeCategory;
-      if (width < 640) {
-        sizeCategory = 'SM'; // Small screens
-      } else if (width < 768) {
+      if (width < 768) {
         sizeCategory = 'SM'; // Small screens
       } else if (width < 1024) {
         sizeCategory = 'SM_M'; // Medium screens
@@ -34,12 +36,49 @@ export function SportBackground() {
       return `/backgroundImages/${sport}${sizeCategory}.svg`;
     };
 
-    // Set the initial background image
-    setBackgroundImage(updateBackgroundImage());
+    // Initial load or sport change
+    if (!isLoading) {
+      const newImageUrl = getBackgroundImage();
+      
+      // Only update if the image is actually different
+      if (newImageUrl !== backgrounds.current.url) {
+        // Preload the new image
+        const img = new Image();
+        img.onload = () => {
+          setIsPreloaded(true);
+          
+          // Swap backgrounds with the new one
+          setBackgrounds(prev => ({
+            previous: { ...prev.current, active: false },
+            current: { url: newImageUrl, active: true }
+          }));
+        };
+        img.src = newImageUrl;
+        setIsPreloaded(false);
+      }
+    }
 
     // Add event listener for window resize
     const handleResize = () => {
-      setBackgroundImage(updateBackgroundImage());
+      if (isLoading) return;
+      
+      const newImageUrl = getBackgroundImage();
+      // Only update if the screen size would result in a different image
+      if (newImageUrl !== backgrounds.current.url) {
+        // Preload the new image
+        const img = new Image();
+        img.onload = () => {
+          setIsPreloaded(true);
+          
+          // Swap backgrounds with the new one
+          setBackgrounds(prev => ({
+            previous: { ...prev.current, active: false },
+            current: { url: newImageUrl, active: true }
+          }));
+        };
+        img.src = newImageUrl;
+        setIsPreloaded(false);
+      }
     };
     
     window.addEventListener('resize', handleResize);
@@ -48,21 +87,53 @@ export function SportBackground() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [isFootball]);
+  }, [isFootball, isLoading, backgrounds.current.url]);
 
-  // Return a div with the background image taking full viewport without scroll
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-0 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse" />
+    );
+  }
+
   return (
-    <div 
-      className="fixed inset-0 z-0 overflow-hidden"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        width: '100vw',
-        height: '100vh'
-      }}
-    />
+    <div className="fixed inset-0 z-0 overflow-hidden">
+      {/* Previous background (fading out) */}
+      {backgrounds.previous.url && (
+        <div 
+          className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+            isPreloaded ? 'opacity-0' : 'opacity-100'
+          }`}
+          style={{
+            backgroundImage: `url(${backgrounds.previous.url})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            width: '100vw',
+            height: '100vh',
+            zIndex: 1
+          }}
+        />
+      )}
+      
+      {/* Current background (fading in) */}
+      {backgrounds.current.url && (
+        <div 
+          className={`absolute inset-0 transition-opacity duration-700 ease-in ${
+            isPreloaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{
+            backgroundImage: `url(${backgrounds.current.url})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            width: '100vw',
+            height: '100vh',
+            zIndex: 2
+          }}
+        />
+      )}
+    </div>
   );
 }
 

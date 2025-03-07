@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavbarContainer } from '@/components/layout/common/navbar-container';
 import { NavbarContent } from '@/components/layout/common/navbar-content';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,14 @@ import { Skeleton } from '@/components/ui/skeleton';
 export function UnAuthenticatedNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isSportPickerOpen, setIsSportPickerOpen] = useState<boolean>(false);
+  const [sportSelected, setSportSelected] = useState<boolean>(false);
   const { activeSport, isLoading } = useSportTheme();
+
+  useEffect(() => {
+    // Check if a sport has been selected
+    const storedSport = localStorage.getItem('activeSport');
+    setSportSelected(!!storedSport);
+  }, [activeSport]);
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
@@ -48,7 +55,8 @@ export function UnAuthenticatedNavbar() {
     }
   };
 
-  const currentTheme = sportThemes[activeSport as keyof typeof sportThemes];
+  const currentTheme = sportSelected && activeSport ? 
+    sportThemes[activeSport as keyof typeof sportThemes] : null;
 
   // Show skeleton while loading
   if (isLoading) {
@@ -88,29 +96,31 @@ export function UnAuthenticatedNavbar() {
         rightItems={
           <>
             {/* Desktop Menu - Hidden on screens smaller than 501px */}
-            <div className="flex items-center space-x-4 max-[501px]:hidden">
-              {/* Sport Theme Picker Button with Dropdown */}
-              <div className="relative">
-                <button
-                  className={`w-10 h-10 flex items-center justify-center rounded-full ${currentTheme.color} ${currentTheme.hoverColor} ${currentTheme.focusStyle} border ${isSportPickerOpen ? currentTheme.activeBorder : 'border-transparent'} ${currentTheme.hoverBorder} cursor-pointer`}
-                  onClick={toggleSportPicker}
-                  tabIndex={0}
-                >
-                  <div className="flex items-center justify-center w-5 h-5 relative">
-                    <Image
-                      src={currentTheme.icon}
-                      alt={`${activeSport} theme`}
-                      fill
-                      style={{ objectFit: 'contain' }}
-                      priority
-                    />
-                  </div>
-                </button>
-                <SportThemePicker 
-                  isOpen={isSportPickerOpen}
-                  onClose={() => setIsSportPickerOpen(false)}
-                />
-              </div>
+            <div className="flex items-center space-x-4 max-[555px]:hidden">
+              {/* Sport Theme Picker Button with Dropdown - Only show if sport is selected */}
+              {sportSelected && currentTheme && (
+                <div className="relative">
+                  <button
+                    className={`w-10 h-10 flex items-center justify-center rounded-full ${currentTheme.color} ${currentTheme.hoverColor} ${currentTheme.focusStyle} border ${isSportPickerOpen ? currentTheme.activeBorder : 'border-transparent'} ${currentTheme.hoverBorder} cursor-pointer`}
+                    onClick={toggleSportPicker}
+                    tabIndex={0}
+                  >
+                    <div className="flex items-center justify-center w-5 h-5 relative">
+                      <Image
+                        src={currentTheme.icon}
+                        alt={`${activeSport} theme`}
+                        fill
+                        style={{ objectFit: 'contain' }}
+                        priority
+                      />
+                    </div>
+                  </button>
+                  <SportThemePicker 
+                    isOpen={isSportPickerOpen}
+                    onClose={() => setIsSportPickerOpen(false)}
+                  />
+                </div>
+              )}
 
               <Button
                 asChild
@@ -151,27 +161,31 @@ export function UnAuthenticatedNavbar() {
             </div>
 
             {/* Mobile View - Only visible on screens smaller than 501px */}
-            <div className="hidden max-[501px]:flex items-center space-x-3 relative">
-              {/* Sport Theme Picker for Mobile */}
-              <button
-                className={`w-12 h-12 flex items-center justify-center rounded-full ${currentTheme.color} ${currentTheme.hoverColor} ${currentTheme.focusStyle} border ${isSportPickerOpen ? currentTheme.activeBorder : 'border-transparent'} ${currentTheme.hoverBorder} cursor-pointer`}
-                onClick={toggleSportPicker}
-                tabIndex={0}
-              >
-                <div className="flex items-center justify-center w-6 h-6 relative">
-                  <Image
-                    src={currentTheme.icon}
-                    alt={`${activeSport} theme`}
-                    fill
-                    style={{ objectFit: 'contain' }}
-                    priority
+            <div className="hidden max-[555px]:flex items-center space-x-3 relative">
+              {/* Sport Theme Picker for Mobile - Only show if sport is selected */}
+              {sportSelected && currentTheme && (
+                <>
+                  <button
+                    className={`w-12 h-12 flex items-center justify-center rounded-full ${currentTheme.color} ${currentTheme.hoverColor} ${currentTheme.focusStyle} border ${isSportPickerOpen ? currentTheme.activeBorder : 'border-transparent'} ${currentTheme.hoverBorder} cursor-pointer`}
+                    onClick={toggleSportPicker}
+                    tabIndex={0}
+                  >
+                    <div className="flex items-center justify-center w-6 h-6 relative">
+                      <Image
+                        src={currentTheme.icon}
+                        alt={`${activeSport} theme`}
+                        fill
+                        style={{ objectFit: 'contain' }}
+                        priority
+                      />
+                    </div>
+                  </button>
+                  <SportThemePicker 
+                    isOpen={isSportPickerOpen}
+                    onClose={() => setIsSportPickerOpen(false)}
                   />
-                </div>
-              </button>
-              <SportThemePicker 
-                isOpen={isSportPickerOpen}
-                onClose={() => setIsSportPickerOpen(false)}
-              />
+                </>
+              )}
               
               {/* Mobile Hamburger Menu */}
               <button
