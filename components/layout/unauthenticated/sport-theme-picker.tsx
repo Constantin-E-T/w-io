@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSportTheme, SportType } from '@/lib/contexts/SportContext';
 
@@ -14,6 +14,25 @@ const SportThemePicker: React.FC<SportThemePickerProps> = ({
   onClose
 }) => {
   const { activeSport, changeSport } = useSportTheme();
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Check screen size to determine positioning
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 555);
+    };
+    
+    // Initial check
+    checkScreenSize();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkScreenSize);
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
   
   if (!isOpen) return null;
 
@@ -27,8 +46,19 @@ const SportThemePicker: React.FC<SportThemePickerProps> = ({
     onClose();
   };
 
+  // Position style based on screen size
+  const positionStyle = isMobile 
+    ? { right: '50px' } // Mobile adjustment to center beneath the button
+    : { left: '0' };    // Default position for desktop
+
   return (
-    <div className="absolute top-[55px] left-0 bg-white w-[214px] flex flex-col items-center rounded-[6px] border border-[#F1F5F9] shadow-[0px_4px_6px_0px_rgba(0,0,0,0.09)] z-50" style={{ padding: "6px 8px" }}>
+    <div 
+      className="absolute top-[55px] bg-white w-[214px] flex flex-col items-center rounded-[6px] border border-[#F1F5F9] shadow-[0px_4px_6px_0px_rgba(0,0,0,0.09)] z-50" 
+      style={{ 
+        padding: "6px 8px",
+        ...positionStyle
+      }}
+    >
       <div className="w-full flex flex-col gap-[8px]">
         {sports.map((sport) => (
           <button 

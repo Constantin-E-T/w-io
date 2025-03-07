@@ -95,7 +95,7 @@ export function UnAuthenticatedNavbar() {
         }}
         rightItems={
           <>
-            {/* Desktop Menu - Hidden on screens smaller than 501px */}
+            {/* Desktop Menu - Hidden on screens smaller than 555px */}
             <div className="flex items-center space-x-4 max-[555px]:hidden">
               {/* Sport Theme Picker Button with Dropdown - Only show if sport is selected */}
               {sportSelected && currentTheme && (
@@ -160,7 +160,7 @@ export function UnAuthenticatedNavbar() {
               </Button>
             </div>
 
-            {/* Mobile View - Only visible on screens smaller than 501px */}
+            {/* Mobile View - Only visible on screens smaller than 555px */}
             <div className="hidden max-[555px]:flex items-center space-x-3 relative">
               {/* Sport Theme Picker for Mobile - Only show if sport is selected */}
               {sportSelected && currentTheme && (
@@ -187,17 +187,21 @@ export function UnAuthenticatedNavbar() {
                 </>
               )}
               
-              {/* Mobile Hamburger Menu */}
-              <button
-                className={`w-12 h-12 flex items-center justify-center rounded-full bg-white border ${isMenuOpen ? 'border-[#141548]' : 'border-[#EAECF0]'} hover:border-[#A5B0C0] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#A5B0C0] cursor-pointer`}
-                onClick={toggleMenu}
-                tabIndex={0}
-              >
-                <div className="flex items-center justify-center">
-                  <HamburgerIcon isOpen={isMenuOpen} onClick={toggleMenu} />
-                </div>
-              </button>
-              <MobileMenu isOpen={isMenuOpen} />
+              {/* Mobile Hamburger Menu - Menu container is now relative */}
+              <div className="relative">
+                <button
+                  className={`w-12 h-12 flex items-center justify-center rounded-full bg-white border ${isMenuOpen ? 'border-[#141548]' : 'border-[#EAECF0]'} hover:border-[#A5B0C0] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#A5B0C0] cursor-pointer`}
+                  onClick={toggleMenu}
+                  tabIndex={0}
+                  style={{ transform: 'translateX(0)' }} /* Ensure button doesn't move */
+                >
+                  <div className="flex items-center justify-center">
+                    <HamburgerIcon isOpen={isMenuOpen} onClick={toggleMenu} />
+                  </div>
+                </button>
+                {/* Menu is now a child of this container for proper alignment */}
+                <MobileMenu isOpen={isMenuOpen} />
+              </div>
             </div>
           </>
         }
