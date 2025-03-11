@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSportTheme } from '@/lib/contexts/SportContext';
 
 export function SportBackground() {
-  const { isFootball, isLoading } = useSportTheme();
+  const { activeSport, isLoading } = useSportTheme();
   const [transition, setTransition] = useState({
     inProgress: false,
     fromSport: null,
@@ -21,6 +21,9 @@ export function SportBackground() {
     visible: false,
     scale: 0
   });
+
+  // Compute isFootball for backward compatibility with the existing logic
+  const isFootball = activeSport === 'FOOTBALL';
 
   useEffect(() => {
     // Skip if loading
@@ -179,7 +182,7 @@ export function SportBackground() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [isFootball, isLoading, currentBackground.url, transition.inProgress]);
+  }, [isFootball, isLoading, currentBackground.url, transition.inProgress, activeSport]);
 
   // Loading state
   if (isLoading) {

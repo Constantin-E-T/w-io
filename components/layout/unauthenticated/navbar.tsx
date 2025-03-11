@@ -23,7 +23,27 @@ export function UnAuthenticatedNavbar() {
     // Check if a sport has been selected
     const storedSport = localStorage.getItem('activeSport');
     setSportSelected(!!storedSport);
+
+    // Force a re-render when localStorage changes
+    const handleStorageChange = () => {
+      const updatedSport = localStorage.getItem('activeSport');
+      setSportSelected(!!updatedSport);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [activeSport]);
+
+  // Added a second useEffect that responds to page loads
+  useEffect(() => {
+    // Immediate check on component mount
+    const storedSport = localStorage.getItem('activeSport');
+    if (storedSport) {
+      setSportSelected(true);
+    }
+  }, []);
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
@@ -55,8 +75,15 @@ export function UnAuthenticatedNavbar() {
     }
   };
 
-  const currentTheme = sportSelected && activeSport ? 
-    sportThemes[activeSport as keyof typeof sportThemes] : null;
+  // Get current sport from localStorage if activeSport is not set in context
+  const getCurrentSport = () => {
+    if (activeSport) return activeSport;
+    const storedSport = localStorage.getItem('activeSport');
+    return storedSport as keyof typeof sportThemes || null;
+  };
+
+  const currentTheme = sportSelected ? 
+    sportThemes[getCurrentSport() as keyof typeof sportThemes] : null;
 
   // Show skeleton while loading
   if (isLoading) {
@@ -108,7 +135,7 @@ export function UnAuthenticatedNavbar() {
                     <div className="flex items-center justify-center w-5 h-5 relative">
                       <Image
                         src={currentTheme.icon}
-                        alt={`${activeSport} theme`}
+                        alt={`${getCurrentSport()} theme`}
                         fill
                         style={{ objectFit: 'contain' }}
                         priority
@@ -173,7 +200,7 @@ export function UnAuthenticatedNavbar() {
                     <div className="flex items-center justify-center w-6 h-6 relative">
                       <Image
                         src={currentTheme.icon}
-                        alt={`${activeSport} theme`}
+                        alt={`${getCurrentSport()} theme`}
                         fill
                         style={{ objectFit: 'contain' }}
                         priority

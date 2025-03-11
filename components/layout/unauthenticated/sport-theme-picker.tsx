@@ -42,6 +42,8 @@ const SportThemePicker: React.FC<SportThemePickerProps> = ({
   ];
 
   const handleSelectSport = (sportId: string) => {
+    // Explicitly save to localStorage before changing context
+    localStorage.setItem('activeSport', sportId);
     changeSport(sportId as SportType);
     onClose();
   };
