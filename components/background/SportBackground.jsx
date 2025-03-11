@@ -190,8 +190,8 @@ export function SportBackground() {
 
   // Determine transition background color
   const transitionBgColor = transition.toSport === 'football' 
-    ? 'bg-[#00A550]' // Green for transition to football
-    : 'bg-[#F4501E]'; // Orange for transition to basketball
+    ? 'bg-[#298024]' // Green for transition to football
+    : 'bg-[#F27507]'; // Orange for transition to basketball
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden">
