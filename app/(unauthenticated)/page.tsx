@@ -32,7 +32,6 @@ export default function UnAuthenticatedHome() {
       {/* Initial loading state */}
       <div className={`absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 transition-opacity duration-500 ${isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="h-full w-full flex items-center justify-center">
-          {/* Optional: Add a subtle pulse animation or logo here */}
         </div>
       </div>
       

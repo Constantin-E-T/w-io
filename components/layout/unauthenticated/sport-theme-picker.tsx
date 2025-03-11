@@ -64,7 +64,7 @@ const SportThemePicker: React.FC<SportThemePickerProps> = ({
           <button 
             key={sport.id}
             onClick={() => handleSelectSport(sport.id)}
-            className={`flex items-center w-full py-3 justify-between text-[#101828] text-[14px] font-[500] tracking-[0.5px] leading-[22px] font-['Poppins']`}
+            className={`flex items-center w-full py-3 justify-between hover:bg-[#EBEBFA] rounded-[6px] text-[#101828] text-[14px] font-[500] tracking-[0.5px] leading-[22px] font-['Poppins']`}
             style={{ padding: "6px 8px" }}
           >
             <div className="flex items-center">
