@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { ContainerLayout } from '@/components/layout/common/ContainerLayout';
 
 interface NavbarContainerProps {
   children?: React.ReactNode;
@@ -22,9 +23,9 @@ export function NavbarContainer({
         className={`w-full border-b-1 border-gray-300 ${backgroundColor} fixed top-0 left-0 right-0 z-50 overflow-visible`}
         style={{ height: height }}
       >
-        <div className="h-full mx-auto px-4 sm:px-6 lg:px-8 w-full sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] 2xl:max-w-[1536px]">
+        <ContainerLayout className="h-full py-5">
           {children}
-        </div>
+        </ContainerLayout>
       </nav>
     </>
   );
